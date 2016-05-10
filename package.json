@@ -1,0 +1,25 @@
+{
+  "name": "iRibreau",
+  "version": "0.1.5",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "latest",
+    "connect-flash": "~0.1.1",
+    "cookie-parser": "latest",
+    "ejs": "latest",
+    "express": "~4.12.3",
+    "express-session": "latest",
+    "morgan": "~1.5.2",
+    "passport": "~0.2.1",
+    "passport-instagram": "^1.0.0",
+    "passport-local": "~1.0.0",
+    "pg": "^4.5.5"
+  }
+}
