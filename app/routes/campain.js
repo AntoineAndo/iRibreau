@@ -72,7 +72,7 @@ router.get('/campain/:id', function(req, res, next) {
 });
 
 router.patch('/campain/:id', function(req, res, next) {
-
+	res.json("{}");
 });
 
 router.delete('/campain/:id', function(req, res, next) {

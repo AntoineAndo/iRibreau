@@ -1,7 +1,7 @@
 var InstagramStrategy = require('passport-instagram').Strategy;
 
 var pg           = require('pg');
-var conString    = "postgres://mbfiyemg:MdxinfvL18_m50eg3qOauazlF9I31aef@fizzy-cherry.db.elephantsql.com:5432/mbfiyemg";
+var conString    = "postgres://mbfiyemg:KTweF8vtP5FUNGaL1mw_5WUUOePRdofn@fizzy-cherry.db.elephantsql.com:5432/mbfiyemg";
 var client       = new pg.Client(conString);
 
 var User            = require('../app/models/user');

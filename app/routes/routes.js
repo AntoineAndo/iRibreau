@@ -6,7 +6,17 @@ module.exports = function(app, passport){
 	});
 
 	app.get('/profile', isLoggedIn, function(req, res){
-		res.render('workInProgress2.ejs', { user: req.user });
+		user = req.user; 
+		req.logout(); 
+		json = '{"user": {'+ 
+			'"u_id": "'+user.u_id+'",'+ 
+			'"token": "'+user.token+'",'+ 
+			'"username": "'+user.username+'",'+ 
+			'"profilePictureUrl": "'+user.profilePictureUrl+'",'+ 
+			'"followersCount": '+user.followersCount+','+ 
+			'"followingCount": '+user.followingCount+ 
+		'}}'; 
+		res.json(JSON.parse( json )); 
 	});
 
 	app.get('/myCampain', isLoggedIn, function(req, res){
