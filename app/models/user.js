@@ -1,6 +1,6 @@
 
 var pg           = require('pg');
-var conString    = "postgres://mbfiyemg:MdxinfvL18_m50eg3qOauazlF9I31aef@fizzy-cherry.db.elephantsql.com:5432/mbfiyemg";
+var conString    = "postgres://mbfiyemg:KTweF8vtP5FUNGaL1mw_5WUUOePRdofn@fizzy-cherry.db.elephantsql.com:5432/mbfiyemg";
 var bcrypt = require('bcryptjs');
 
 function User(){
@@ -64,7 +64,7 @@ function User(){
 
 
 User.findOne = function(id, callback){
-	var conString    = "postgres://mbfiyemg:MdxinfvL18_m50eg3qOauazlF9I31aef@fizzy-cherry.db.elephantsql.com:5432/mbfiyemg";
+	var conString    = "postgres://mbfiyemg:KTweF8vtP5FUNGaL1mw_5WUUOePRdofn@fizzy-cherry.db.elephantsql.com:5432/mbfiyemg";
     var client = new pg.Client(conString);
     client.connect();
 

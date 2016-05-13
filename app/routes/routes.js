@@ -2,12 +2,21 @@ var User = require('../models/user');
 module.exports = function(app, passport){
 
 	app.get('/', function(req, res){
-		res.render('index.ejs');
+		res.render('workInProgress.ejs');
 	});
 
 	app.get('/profile', isLoggedIn, function(req, res){
-		res.render('profile.ejs', { user: req.user });
+		res.render('workInProgress2.ejs', { user: req.user });
 	});
+
+	app.get('/myCampain', isLoggedIn, function(req, res){
+		res.render("workInProgress3.ejs", { user: req.user });
+	});
+
+	app.get('/campain', isLoggedIn, function(req, res){
+		res.render("workInProgress4.ejs", { user: req.user });
+	});
+
 
 	app.get('/auth/instagram',
 		passport.authenticate('instagram'),
