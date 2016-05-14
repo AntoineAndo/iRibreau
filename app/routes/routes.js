@@ -19,18 +19,19 @@ module.exports = function(app, passport){
 		res.json(JSON.parse( json )); 
 	});
 
-	app.get('/myCampain', isLoggedIn, function(req, res){
-		res.render("workInProgress3.ejs", { user: req.user });
+	app.put('/profile', function(req, res){
+		result = [];
+		result.push(["u_id","1722278825"]);
+		for(var i in req.body)
+    		result.push([i, req.body[i]]);
+    	//console.log(result);
+    	User.update(result);
 	});
-
-	app.get('/campain', isLoggedIn, function(req, res){
-		res.render("workInProgress4.ejs", { user: req.user });
-	});
-
 
 	app.get('/auth/instagram',
 		passport.authenticate('instagram'),
 			function(req, res){});
+
 	app.get('/auth/instagram/callback',
 		passport.authenticate('instagram', { failureRedirect: '/' }),
 		function(req, res) {

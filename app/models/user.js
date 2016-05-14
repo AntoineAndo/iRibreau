@@ -70,8 +70,10 @@ User.findOne = function(id, callback){
 
     client.query("SELECT * from users where u_id=$1", [id], function(err, result){
         if(err){
+            client.end();
             return callback(err, this);
         }
+        client.end();
 
         if (result.rows.length > 0){
             this.u_id = result.rows[0]['u_id'];
@@ -114,5 +116,37 @@ User.findById = function(id, callback){
         }
     });
 };
+
+User.update = function(result){
+    parameters = {};
+    fields = [];
+    result.forEach(function(param){
+        fields.push(param[0]);
+        parameters[param[0]] = param[1];
+    });
+    console.log(parameters);
+    fields.shift();
+
+    query = "UPDATE USERS SET u_id = "+parameters['u_id'];
+
+    fields.forEach(function(field){
+        query += ", "+field+" = '"+parameters[field]+"' ";
+    });
+    query += "WHERE u_id like '"+parameters['u_id']+"';";
+
+    var client = new pg.Client(conString);
+
+    console.log(query);
+
+    client.connect();
+    client.query(query, function(err, result){
+
+      //  console.log(result);
+        console.log(err);
+        client.end();
+    });
+
+}
+
 module.exports = User;
 
