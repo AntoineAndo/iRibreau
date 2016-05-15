@@ -20,11 +20,9 @@ module.exports = function(app, passport){
 	 			});
 	 			
 	 		}
-	 		//res.statusCode = 201;
-	 		//res.json(result);
-	 		res.render('campaigns.ejs', { statusCode: 201,
-	 									    json: JSON.parse(result),
-	 		 								user: req.user });
+	 		res.statusCode = 201;
+	 		res.json(result);
+	 		//res.render('campaigns.ejs', { campaigns: result });
 	 	});
 	});
 

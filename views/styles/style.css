@@ -5,3 +5,13 @@
 .pendingCampaigns{
 	color: orange;
 }
+
+.rejectedCampaigns{
+	color: red;
+}
+
+.noResult{
+	padding : 10px;
+	color: grey;
+	text-align: center;
+}

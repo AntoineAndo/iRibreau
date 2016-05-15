@@ -16,25 +16,15 @@
     	<div class="row">
             <div class="col-sm-4 col-sm-offset-4">
 
-                <div class="validatedCampaigns"><h1>Validated campaigns</h1></div>
-                <% campaigns.forEach(function(campaign) {
-                    if(campaign.status == "validated"){ %>
-                        <%- include('campaign', {campaign: campaign}); %>
-                    <% }
-                }); %>
+                <div class="validatedCampaigns"><h2>Validated campaigns</h2></div>
+                <%- include('campaignType', {status: "validated"}); %>
 
-                <div class="pendingCampaigns"><h1>Pending campaigns</h1></div>
-                <% campaigns.forEach(function(campaign) {
-                    if(campaign.status == "pending"){ %>
-                        <%- include('campaign', {campaign: campaign}); %>
-                    <% }
-                }); %>
-            </div>
+                <div class="pendingCampaigns"><h2>Pending campaigns</h2></div>
+                <%- include('campaignType', {status: "pending"}); %>
 
-            <div class="col-sm-4 col-sm-offset-4">
-                <div class="well">
-                    <a href="/logout">Logout</a>
-                </div>
+                <div class="rejectedCampaigns"><h2>Rejected campaigns</h2></div>
+                <%- include('campaignType', {status: "rejected"}); %>
+
             </div>
     	</div>
     </div>

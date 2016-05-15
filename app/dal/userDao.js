@@ -1,5 +1,5 @@
 /**
-* Data access layer for campaigns
+* Data access layer for users
 *
 * @class campaignDao.js
 */
@@ -43,7 +43,7 @@ function UserDao(){
             }
         });
 
-        client.query(QUERY_FIND_USER_BY_ID, [this.u_id], function(err, result){
+        client.query(QUERY_FIND_USER_BY_ID, [newUser.u_id], function(err, result){
 
             if(err){
                 return callback(null);
@@ -74,7 +74,7 @@ function UserDao(){
             client.end();
 
             if(err){
-                return callback(err, this);
+                return callback(err, null);
             }
 
             if (result.rows.length > 0){
@@ -105,6 +105,36 @@ function UserDao(){
             }
         });
     };
+
+    this.update = function(result){
+        parameters = {};
+        fields = [];
+        result.forEach(function(param){
+            fields.push(param[0]);
+            parameters[param[0]] = param[1];
+        });
+        console.log(parameters);
+        fields.shift();
+
+        query = "UPDATE USERS SET u_id = "+parameters['u_id'];
+
+        fields.forEach(function(field){
+            query += ", "+field+" = '"+parameters[field]+"' ";
+        });
+        query += "WHERE u_id like '"+parameters['u_id']+"';";
+
+        var client = new pg.Client(conString);
+
+        console.log(query);
+
+        client.connect();
+        client.query(query, function(err, result){
+
+          //  console.log(result);
+            console.log(err);
+            client.end();
+        });
+    }
 
     // Create a new json object from query result
     function generateUserFromQuery(result, rowIndex){
