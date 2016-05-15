@@ -5,6 +5,7 @@ function Database(){
 	this.hostname = 'fizzy-cherry.db.elephantsql.com';
 	this.port = '5432';
 	this.databaseName = 'mbfiyemg';
+	this.currentSchema = 'iRibreau';
 
 	this.getConnectionString = function(){
 		var connectionString = "";
@@ -14,7 +15,8 @@ function Database(){
 			this.password, '@',
 			this.hostname, ':',
 			this.port, '/',
-			this.databaseName
+			this.databaseName, '?currentSchema=',
+			this.currentSchema
 		);
 		return connectionString;
 	}
