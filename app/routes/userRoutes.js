@@ -2,6 +2,7 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 
 // Modules
+var routing = require(appDir + '/app/routes/routes');
 var User = require(appDir + '/app/dal/models/user');
 
 module.exports = function(app, passport){
@@ -10,7 +11,7 @@ module.exports = function(app, passport){
 		res.render('workInProgress.ejs');
 	});
 
-	app.get('/profile', isLoggedIn, function(req, res){
+	app.get('/profile', routing.isLoggedIn, function(req, res){
 		user = req.user; 
 		json = '{"user": {'+ 
 			'"u_id": "'+user.u_id+'",'+ 
@@ -20,7 +21,8 @@ module.exports = function(app, passport){
 			'"followersCount": '+user.followersCount+','+ 
 			'"followingCount": '+user.followingCount+ 
 		'}}'; 
-		res.json(JSON.parse( json )); 
+		//res.json(JSON.parse( json )); 
+		res.render('profile.ejs', { json: JSON.parse(json), user: req.user });
 	});
 
 	app.put('/profile', function(req, res){
@@ -47,10 +49,3 @@ module.exports = function(app, passport){
 		res.redirect('/');
 	});
 };
-
-function isLoggedIn(req, res, next) {
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect('/');
-}

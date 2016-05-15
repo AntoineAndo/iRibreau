@@ -23,4 +23,7 @@ module.exports = function Campaign(){
 
     // the campaign's budget
     this.budget = 0;
+
+    // the campaign's validation status
+    this.status = "";
 }

@@ -122,14 +122,15 @@ function CampaignDao(){
     // Create a new json object from query result
     function generateCampaignFromQuery(result, rowIndex){
         var campaign = new Campaign();
-        campaign.campaign_id= result.rows[rowIndex]['campaign_id'];
+        campaign.campaign_id= result.rows[rowIndex]['id_campaign'];
         campaign.owner_id = result.rows[rowIndex]['owner_id'];
-        campaign.title = result.rows[rowIndex]['title'];
+        campaign.title = result.rows[rowIndex]['titre'];
         campaign.description = result.rows[rowIndex]['description'];
         campaign.logo = result.rows[rowIndex]['logo'];
         campaign.minFollower = result.rows[rowIndex]['minFollower'];
         campaign.participantCount = result.rows[rowIndex]['participantCount'];
         campaign.budget = result.rows[rowIndex]['budget'];
+        campaign.status = result.rows[rowIndex]['status'];
         return campaign;
     }
 
@@ -143,11 +144,12 @@ function CampaignDao(){
 
     QUERY_FIND_CAMPAIGN_BY_ID = 'SELECT * from campaign where id_campaign=$1';
 
-    QUERY_FIND_CAMPAIGNS_BY_USER = 'SELECT campaign.id_campaign, titre, description, logo, "minFollower", "participantCount", budget ' +
+    QUERY_FIND_CAMPAIGNS_BY_USER = 'SELECT campaign.id_campaign, titre, description, logo, "minFollower", "participantCount", budget, whiteList.status ' +
                                         'FROM campaign, "whiteList" whiteList, users ' +
-                                        'WHERE campaign.id_campaign = whiteList.id_campaign AND whiteList.id_user = users.id_users ' +
+                                        'WHERE campaign.id_campaign = whiteList.id_campaign ' +
+                                        'AND whiteList.id_user = users.id_users ' +
                                         'AND users.u_id = $1::text ' +
-                                        'GROUP BY campaign.id_campaign';
+                                        'GROUP BY campaign.id_campaign, whiteList.status';
 }
 
 module.exports = CampaignDao;

@@ -2,6 +2,7 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 
 // Modules
+var routing = require(appDir + '/app/routes/routes');
 var Campaign = require(appDir + '/app/dal/models/campaign');
 var CampaignDao = require(appDir + '/app/dal/campaignDao');
 var campaignDao = new CampaignDao();
@@ -19,8 +20,11 @@ module.exports = function(app, passport){
 	 			});
 	 			
 	 		}
-	 		res.statusCode = 201;
-	 		res.json(result);
+	 		//res.statusCode = 201;
+	 		//res.json(result);
+	 		res.render('campaigns.ejs', { statusCode: 201,
+	 									    json: JSON.parse(result),
+	 		 								user: req.user });
 	 	});
 	});
 
@@ -35,8 +39,9 @@ module.exports = function(app, passport){
 	 			});
 	 			
 	 		}
-	 		res.statusCode = 201;
-	 		res.json(result);
+	 		// res.statusCode = 201;
+	 		// res.json(result);
+	 		res.render('myCampaigns.ejs', { campaigns: result });
 	 	});
 	});
 
@@ -54,7 +59,6 @@ module.exports = function(app, passport){
 	 			
 	 		}
 	 		res.statusCode = 201;
-	 		res.json("ebin");
 	 	});
 	});
 
@@ -78,7 +82,6 @@ module.exports = function(app, passport){
 	 			}
 	 		}
 	 		res.statusCode = 201;
-	 		
 	 	});
 	});
 
@@ -86,7 +89,7 @@ module.exports = function(app, passport){
 		res.json("{}");
 	});
 
-	app.delete('/campaign/:id', function(req, res, next) {
+	app.delete('/campaign/:id',  function(req, res, next) {
 
 	});
 
