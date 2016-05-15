@@ -1,21 +1,22 @@
+// Absolute path
+var path = require('path');
+var appDir = path.dirname(require.main.filename);
+
+//Modules
 var InstagramStrategy = require('passport-instagram').Strategy;
-
-var pg           = require('pg');
-var conString    = "postgres://mbfiyemg:KTweF8vtP5FUNGaL1mw_5WUUOePRdofn@fizzy-cherry.db.elephantsql.com:5432/mbfiyemg";
-var client       = new pg.Client(conString);
-
-var User            = require('../app/models/user');
-var configAuth = require('./auth');
+var configAuth   = require(appDir + '/config/apiAuthentication');
+var User         = require(appDir + '/app/dal/models/user');
+var UserDao      = require(appDir + '/app/dal/userDao');
+var userDao      = new UserDao();
 
 module.exports = function(passport, pg) {
-
 
     passport.serializeUser(function(user, done) {
         done(null, user.u_id);
     });
 
     passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+        userDao.findById(id, function(err, user) {
             done(err, user);
         });
     });
@@ -29,9 +30,8 @@ module.exports = function(passport, pg) {
     	process.nextTick(function(){
 
             profile = JSON.parse(profile._raw).data;
-            //console.log(profile);
 
-    		User.findOne(profile.id, function(err, user){
+    		userDao.findOne(profile.id, function(err, user){
     			if(err){
     				console.log("err");
     				return done(err);
@@ -51,7 +51,7 @@ module.exports = function(passport, pg) {
                     newUser.followingCount = profile.counts.follows;
     				
                     
-                    newUser.save(function(err, callback){
+                    userDao.save(newUser, function(err, callback){
     					if(err)
     						throw err;
     					return done(null, newUser);
