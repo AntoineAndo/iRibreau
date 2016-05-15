@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<title>Campaigns</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/styles/style.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+</head>
+<body>
+
+    <div class="container">
+    	<div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+
+                <div class="validatedCampaigns"><h1>Validated campaigns</h1></div>
+                <% campaigns.forEach(function(campaign) {
+                    if(campaign.status == "validated"){ %>
+                        <%- include('campaign', {campaign: campaign}); %>
+                    <% }
+                }); %>
+
+                <div class="pendingCampaigns"><h1>Pending campaigns</h1></div>
+                <% campaigns.forEach(function(campaign) {
+                    if(campaign.status == "pending"){ %>
+                        <%- include('campaign', {campaign: campaign}); %>
+                    <% }
+                }); %>
+            </div>
+
+            <div class="col-sm-4 col-sm-offset-4">
+                <div class="well">
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+    	</div>
+    </div>
+
+</body>
+</html>

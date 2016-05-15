@@ -23,6 +23,7 @@ app.use(session({secret: 'anystringoftext',
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+app.use(express.static(__dirname + '/views'));
 
 app.set('view engine', 'ejs');
 
