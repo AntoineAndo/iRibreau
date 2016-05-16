@@ -22,7 +22,22 @@ module.exports = function(app, passport){
 	 		}
 	 		res.statusCode = 201;
 	 		res.json(result);
-	 		//res.render('campaigns.ejs', { campaigns: result });
+	 	});
+	});
+
+	app.get('/mySubscriptions', function(req, res, next) {
+
+	 	campaignDao.getCampaignsByUser(req.user.u_id, function(err, result){
+	 		if(err){
+	 			console.log(err);
+	 			res.statusCode = 500;
+	 			return res.json({
+	 				errors: ['Problème lors de la récupération des campagnes']
+	 			});
+	 			
+	 		}
+	 		res.statusCode = 201;
+	 		res.json(result);
 	 	});
 	});
 
@@ -37,9 +52,8 @@ module.exports = function(app, passport){
 	 			});
 	 			
 	 		}
-	 		// res.statusCode = 201;
-	 		// res.json(result);
-	 		res.render('myCampaigns.ejs', { campaigns: result });
+	 		res.statusCode = 201;
+	 		res.json(result);
 	 	});
 	});
 
@@ -106,6 +120,43 @@ module.exports = function(app, passport){
 	/**
 	* Unit tests
 	*/
+
+	// Formulaire de test
+	app.get('/test/campaign/new', function(req, res, next) {
+
+	 	res.render('campaigns/newCampaign.ejs', { campaigns: result });
+
+	});
+
+	app.get('/test/mySubscriptions', function(req, res, next) {
+
+	 	campaignDao.getCampaignsByUser(req.user.u_id, function(err, result){
+	 		if(err){
+	 			console.log(err);
+	 			res.statusCode = 500;
+	 			return res.json({
+	 				errors: ['Problème lors de la récupération des campagnes']
+	 			});
+	 			
+	 		}
+	 		res.render('campaigns/mySubscriptions.ejs', { campaigns: result });
+	 	});
+	});
+
+	app.get('/test/myCampaigns', function(req, res, next) {
+
+	 	campaignDao.getCampaignsByUser(req.user.u_id, function(err, result){
+	 		if(err){
+	 			console.log(err);
+	 			res.statusCode = 500;
+	 			return res.json({
+	 				errors: ['Problème lors de la récupération des campagnes']
+	 			});
+	 			
+	 		}
+	 		res.render('campaigns/myCampaigns.ejs', { campaigns: result });
+	 	});
+	});
 
 	// summon.use(app, express);
 

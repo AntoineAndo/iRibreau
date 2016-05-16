@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+	<title>My subscriptions</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <%- include('./libs.ejs'); %>
+</head>
+<body>
+
+    <div class="container">
+    	<div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+
+                <div class="validatedCampaigns"><h2>Opened campaigns</h2></div>
+                <%- include('campaignType', {status: "OPEND"}); %>
+
+                <div class="pendingCampaigns"><h2>Closed campaigns</h2></div>
+                <%- include('campaignType', {status: "CLOSD"}); %>
+
+                <div class="rejectedCampaigns"><h2>Canceled campaigns</h2></div>
+                <%- include('campaignType', {status: "CANCLD"}); %>
+
+            </div>
+    	</div>
+    </div>
+
+</body>
+</html>

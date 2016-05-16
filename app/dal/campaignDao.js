@@ -178,7 +178,8 @@ function CampaignDao(){
         campaign.minFollower = result.rows[rowIndex]['minFollower'];
         campaign.participantCount = result.rows[rowIndex]['participantCount'];
         campaign.budget = result.rows[rowIndex]['budget'];
-        campaign.status = result.rows[rowIndex]['campaignwhiteliststatus_id'];
+        campaign.status = result.rows[rowIndex]['status_id'];
+        campaign.whiteliststatus = result.rows[rowIndex]['campaignwhiteliststatus_id'];
         return campaign;
     }
 
@@ -192,7 +193,7 @@ function CampaignDao(){
 
     QUERY_FIND_CAMPAIGN_BY_ID = 'SELECT * from campaign where campaign_id=$1';
 
-    QUERY_FIND_CAMPAIGNS_BY_USER = 'SELECT campaign.campaign_id, titre, description, logo, "minFollower", "participantCount", budget, whiteList.campaignwhiteliststatus_id ' +
+    QUERY_FIND_CAMPAIGNS_BY_USER = 'SELECT campaign.campaign_id, titre, description, logo, "minFollower", "participantCount", budget, owner_id, status_id, whiteList.campaignwhiteliststatus_id ' +
                                         'FROM campaign, "campaignwhitelist" whiteList, users ' +
                                         'WHERE campaign.campaign_id = whiteList.campaign_id ' +
                                         'AND whiteList.user_id = users.users_id ' +

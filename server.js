@@ -9,6 +9,7 @@ var morgan 		 = require('morgan');
 var bodyParser 	 = require('body-parser');
 var passport 	 = require('passport');
 var flash 		 = require('connect-flash');
+var methodOverride = require('method-override')
 var router 		 = express.Router();
 
 require('./config/passport')(passport);
@@ -20,6 +21,7 @@ app.use(session({secret: 'anystringoftext',
 				 saveUninitialized: true,
 				 resave: true}));
 
+app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
