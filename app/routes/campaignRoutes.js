@@ -47,7 +47,7 @@ module.exports = function(app, passport){
 
 		newCampaign = req.campaign;
 		
-		campaignDao.saveNewEntry(newCampaign, function(err, result){
+		campaignDao.saveNewCampaign(newCampaign, function(err, result){
 	 		if(err){
 	 			console.log(err);
 	 			res.statusCode = 500;
@@ -62,7 +62,7 @@ module.exports = function(app, passport){
 
 	app.get('/campaign/:id', function(req, res, next) {
 
-	 	campaignDao.findById(req.params.id, function(err, result){
+	 	campaignDao.findCampaignById(req.params.id, function(err, result){
 	 		if(err){
 	 			console.log(err);
 	 			res.statusCode = 500;
@@ -73,7 +73,7 @@ module.exports = function(app, passport){
 	 		console.log(JSON.stringify(result));
 	 		res.json(result);
 
-	 		// Keeping only one result for security issues
+	 		// Keeping only one result for security purpose
 	 		if(result != null){
 	 			if(result.row <= 1){
 	 				res.json(result.rows[0]);
@@ -89,6 +89,17 @@ module.exports = function(app, passport){
 
 	app.delete('/campaign/:id',  function(req, res, next) {
 
+		campaignDao.deleteCampaign(req.params.id, function(err, result){
+	 		if(err){
+	 			console.log(err);
+	 			res.statusCode = 500;
+	 			return res.json({
+	 				errors: ['Problème lors de la suppression d\' une campagne']
+	 			});
+	 		}
+	 		res.json(result);
+	 		res.statusCode = 201;
+	 	});
 	});
 
 

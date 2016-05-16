@@ -20,7 +20,7 @@ function CampaignDao(){
     var conString = db.getConnectionString();
 
     // Creates a new campaign
-    this.saveNewEntry = function(campaign, callback) {
+    this.saveNewCampaign = function(campaign, callback) {
         var client = new pg.Client(conString);
         client.connect();
 
@@ -44,16 +44,9 @@ function CampaignDao(){
         });
     }
 
-    // Updates the campaign
-    this.update = function(){
-
-    }
-
     // Finds one campaign by id
-    this.findById = function(id, callback){
+    this.findCampaignById = function(id, callback){
         var client = new pg.Client(conString);
-
-        console.log("finding campaign by id :" + id + "...")
 
         client.connect();
         client.query(QUERY_FIND_CAMPAIGN_BY_ID, [id], function(err, result){
@@ -119,10 +112,65 @@ function CampaignDao(){
         });
     }
 
+    // Updates the campaign
+    this.updateCampaign = function(parameters){
+
+        query = buildUpdateQuery(parameters);
+
+        var client = new pg.Client(conString);
+
+        console.log(query);
+
+        client.connect();
+        client.query(query, function(err, result){
+
+            client.end();
+            if(err){
+                console.log(err);
+            }
+        });
+    }
+
+    // Deletes the campaign
+    this.deleteCampaign = function(campaign){
+        client.connect();
+        client.query(QUERY_DELETE_CAMPAIGN, [id], function(err, result){
+
+            client.end();
+            if(err){
+                console.log(err);
+            }
+        });
+    }
+
+    function buildUpdateQuery(parameters){
+
+        fields = [];
+        parameters.forEach(function(param){
+            fields.push(param[0]);
+            parameters[param[0]] = param[1];
+        });
+        console.log(parameters);
+        fields.shift();
+
+        query = "UPDATE campaign SET";
+
+        fields.forEach(function(field, index, fieldArray){
+            query += " "+field+" = '"+parameters[field]+"'";
+            if(index != fieldArray.length - 1){
+                query += ", ";
+            }
+        });
+
+        query += "WHERE campaign_id like '"+parameters['campaign_id']+"';";
+
+        return query;
+    }
+
     // Create a new json object from query result
     function generateCampaignFromQuery(result, rowIndex){
         var campaign = new Campaign();
-        campaign.campaign_id= result.rows[rowIndex]['id_campaign'];
+        campaign.campaign_id= result.rows[rowIndex]['campaign_id'];
         campaign.owner_id = result.rows[rowIndex]['owner_id'];
         campaign.title = result.rows[rowIndex]['titre'];
         campaign.description = result.rows[rowIndex]['description'];
@@ -130,7 +178,7 @@ function CampaignDao(){
         campaign.minFollower = result.rows[rowIndex]['minFollower'];
         campaign.participantCount = result.rows[rowIndex]['participantCount'];
         campaign.budget = result.rows[rowIndex]['budget'];
-        campaign.status = result.rows[rowIndex]['status'];
+        campaign.status = result.rows[rowIndex]['campaignwhiteliststatus_id'];
         return campaign;
     }
 
@@ -138,18 +186,20 @@ function CampaignDao(){
     * QUERIES
     **/
 
-    QUERY_INSERT_NEW_CAMPAIGN = 'INSERT INTO campaign(id_owner, title, description, logo, minFollower, participantCount, budget) VALUES($1, $2, $3, $4, $5, $6, $7)';
+    QUERY_INSERT_NEW_CAMPAIGN = 'INSERT INTO campaign(title, description, logo, minFollower, participantCount, budget, owner_id, status_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
 
     QUERY_FIND_CAMPAIGNS = 'SELECT * from campaign';
 
-    QUERY_FIND_CAMPAIGN_BY_ID = 'SELECT * from campaign where id_campaign=$1';
+    QUERY_FIND_CAMPAIGN_BY_ID = 'SELECT * from campaign where campaign_id=$1';
 
-    QUERY_FIND_CAMPAIGNS_BY_USER = 'SELECT campaign.id_campaign, titre, description, logo, "minFollower", "participantCount", budget, whiteList.status ' +
-                                        'FROM campaign, "whiteList" whiteList, users ' +
-                                        'WHERE campaign.id_campaign = whiteList.id_campaign ' +
-                                        'AND whiteList.id_user = users.id_users ' +
+    QUERY_FIND_CAMPAIGNS_BY_USER = 'SELECT campaign.campaign_id, titre, description, logo, "minFollower", "participantCount", budget, whiteList.campaignwhiteliststatus_id ' +
+                                        'FROM campaign, "campaignwhitelist" whiteList, users ' +
+                                        'WHERE campaign.campaign_id = whiteList.campaign_id ' +
+                                        'AND whiteList.user_id = users.users_id ' +
                                         'AND users.u_id = $1::text ' +
-                                        'GROUP BY campaign.id_campaign, whiteList.status';
+                                        'GROUP BY campaign.campaign_id, whiteList.campaignwhiteliststatus_id';
+
+    QUERY_DELETE_CAMPAIGN = 'DELETE FROM campaign where campaign_id=$1';
 }
 
 module.exports = CampaignDao;
