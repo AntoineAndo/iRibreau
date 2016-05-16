@@ -4,7 +4,6 @@ var port 		 = process.env.PORT || 8080;
 
 var cookieParser = require('cookie-parser');
 var session 	 = require('express-session');
-var summon 		 = require('express-summon-route');
 var morgan 		 = require('morgan');
 var bodyParser 	 = require('body-parser');
 var passport 	 = require('passport');
