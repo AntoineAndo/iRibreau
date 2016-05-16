@@ -27,7 +27,7 @@ module.exports = function(app, passport){
 
 	app.get('/mySubscriptions', function(req, res, next) {
 
-	 	campaignDao.getCampaignsByUser(req.user.u_id, function(err, result){
+	 	campaignDao.getCampaignsByUserSubscription(req.user.u_id, function(err, result){
 	 		if(err){
 	 			console.log(err);
 	 			res.statusCode = 500;
@@ -43,7 +43,7 @@ module.exports = function(app, passport){
 
 	app.get('/myCampaigns', function(req, res, next) {
 
-	 	campaignDao.getCampaignsByUser(req.user.u_id, function(err, result){
+	 	campaignDao.getCampaignsByOwner(req.user.u_id, function(err, result){
 	 		if(err){
 	 			console.log(err);
 	 			res.statusCode = 500;
@@ -130,7 +130,7 @@ module.exports = function(app, passport){
 
 	app.get('/test/mySubscriptions', function(req, res, next) {
 
-	 	campaignDao.getCampaignsByUser(req.user.u_id, function(err, result){
+	 	campaignDao.getCampaignsByUserSubscription(req.user.u_id, function(err, result){
 	 		if(err){
 	 			console.log(err);
 	 			res.statusCode = 500;
@@ -145,7 +145,7 @@ module.exports = function(app, passport){
 
 	app.get('/test/myCampaigns', function(req, res, next) {
 
-	 	campaignDao.getCampaignsByUser(req.user.u_id, function(err, result){
+	 	campaignDao.getCampaignsByOwner(req.user.u_id, function(err, result){
 	 		if(err){
 	 			console.log(err);
 	 			res.statusCode = 500;

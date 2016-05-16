@@ -87,13 +87,41 @@ function CampaignDao(){
         });
     }
 
-
     // Finds all of the campaigns on which the user is subscribed to
-    this.getCampaignsByUser = function(id, callback){
+    this.getCampaignsByOwner = function(id, callback){
         var client = new pg.Client(conString);
 
+        console.log('attempting to retreive campaigns for this owner : ' + id);
+
         client.connect();
-        client.query(QUERY_FIND_CAMPAIGNS_BY_USER, [id], function(err, result){
+        client.query(QUERY_FIND_CAMPAIGNS_BY_OWNER, [id], function(err, result){
+
+            client.end();
+            if(err){
+                return callback(err, null);
+            }
+
+            var campaigns = [];
+            if(result.rows.length > 0){
+                for(i = 0; i < result.rows.length; i++){
+                    var campaign = generateCampaignFromQuery(result, i);
+                    campaigns.push(campaign);
+                }
+            }
+            
+            return callback(null, campaigns);
+        });
+    }
+
+
+    // Finds all of the campaigns on which the user is subscribed to
+    this.getCampaignsByUserSubscription = function(id, callback){
+        var client = new pg.Client(conString);
+
+        console.log('attempting to retreive subscriptions for this owner : ' + id);
+
+        client.connect();
+        client.query(QUERY_FIND_CAMPAIGNS_BY_USER_SUBSCRIPTION, [id], function(err, result){
 
             client.end();
             if(err){
@@ -193,11 +221,16 @@ function CampaignDao(){
 
     QUERY_FIND_CAMPAIGN_BY_ID = 'SELECT * from campaign where campaign_id=$1';
 
-    QUERY_FIND_CAMPAIGNS_BY_USER = 'SELECT campaign.campaign_id, titre, description, logo, "minFollower", "participantCount", budget, owner_id, status_id, whiteList.campaignwhiteliststatus_id ' +
+    QUERY_FIND_CAMPAIGNS_BY_OWNER = 'SELECT campaign_id, titre, description, logo, "minFollower", "participantCount", budget, owner_id, status_id ' +
+                                    'FROM campaign, users ' +
+                                    'WHERE campaign.owner_id = users.user_id ' +
+                                    'AND users.u_id like $1';
+
+    QUERY_FIND_CAMPAIGNS_BY_USER_SUBSCRIPTION = 'SELECT campaign.campaign_id, titre, description, logo, "minFollower", "participantCount", budget, owner_id, status_id, whiteList.campaignwhiteliststatus_id ' +
                                         'FROM campaign, "campaignwhitelist" whiteList, users ' +
                                         'WHERE campaign.campaign_id = whiteList.campaign_id ' +
-                                        'AND whiteList.user_id = users.users_id ' +
-                                        'AND users.u_id = $1::text ' +
+                                        'AND whiteList.user_id = users.user_id ' +
+                                        'AND users.u_id like $1 ' +
                                         'GROUP BY campaign.campaign_id, whiteList.campaignwhiteliststatus_id';
 
     QUERY_DELETE_CAMPAIGN = 'DELETE FROM campaign where campaign_id=$1';

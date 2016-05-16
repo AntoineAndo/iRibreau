@@ -1,0 +1,11 @@
+<% var campaignNum = 0; %>
+<% campaigns.forEach(function(campaign) { %>
+	<% if(campaign.status == status){ %>  
+		<% campaignNum++; %>
+	    <%- include('campaign', {campaign: campaign}); %>
+    <% } %>
+<% }); %>
+<% console.log(campaignNum); %>
+<% if(campaignNum == 0){ %>
+	<div class="noResult"> No match for this status. </div>
+<%	} %>

@@ -26,4 +26,7 @@ module.exports = function Campaign(){
 
     // the campaign's validation status
     this.status = "";
+
+    // the campaign's whitelist status
+    this.whiteliststatus = "";
 }

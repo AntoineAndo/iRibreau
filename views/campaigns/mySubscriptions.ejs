@@ -12,13 +12,13 @@
             <div class="col-sm-6 col-sm-offset-3">
 
                 <div class="validatedCampaigns"><h2>Validated campaigns</h2></div>
-                <%- include('campaignType', {status: "ACCPT"}); %>
+                <%- include('campaignSubscription', {whiteliststatus: "ACCPT"}); %>
 
                 <div class="pendingCampaigns"><h2>Pending campaigns</h2></div>
-                <%- include('campaignType', {status: "PENDG"}); %>
+                <%- include('campaignSubscription', {whiteliststatus: "PENDG"}); %>
 
                 <div class="rejectedCampaigns"><h2>Rejected campaigns</h2></div>
-                <%- include('campaignType', {status: "RJCTD"}); %>
+                <%- include('campaignSubscription', {whiteliststatus: "RJCTD"}); %>
 
             </div>
     	</div>

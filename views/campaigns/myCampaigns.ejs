@@ -12,13 +12,13 @@
             <div class="col-sm-6 col-sm-offset-3">
 
                 <div class="validatedCampaigns"><h2>Opened campaigns</h2></div>
-                <%- include('campaignType', {status: "OPEND"}); %>
+                <%- include('campaignOwnership', {status: "OPEND"}); %>
 
                 <div class="pendingCampaigns"><h2>Closed campaigns</h2></div>
-                <%- include('campaignType', {status: "CLOSD"}); %>
+                <%- include('campaignOwnership', {status: "CLOSD"}); %>
 
                 <div class="rejectedCampaigns"><h2>Canceled campaigns</h2></div>
-                <%- include('campaignType', {status: "CANCLD"}); %>
+                <%- include('campaignOwnership', {status: "CANCLD"}); %>
 
             </div>
     	</div>

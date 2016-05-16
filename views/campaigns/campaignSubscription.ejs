@@ -1,8 +1,8 @@
 <% var campaignNum = 0; %>
 <% campaigns.forEach(function(campaign) { %>
-	<% if(campaign.status == status){ %>  
+	<% if(campaign.whiteliststatus == whiteliststatus){ %>  
 		<% campaignNum++; %>
-	    <%- include('campaign', {campaign: campaign, status: status}); %>
+	    <%- include('campaign', {campaign: campaign}); %>
     <% } %>
 <% }); %>
 <% console.log(campaignNum); %>
