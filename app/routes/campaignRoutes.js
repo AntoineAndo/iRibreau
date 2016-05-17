@@ -57,7 +57,7 @@ module.exports = function(app, passport){
 	 	});
 	});
 
-	app.put('/campaign/new', function(req, res, next){
+	app.post('/campaign', function(req, res, next){
 
 		newCampaign = req.campaign;
 		
