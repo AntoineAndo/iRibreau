@@ -15,3 +15,7 @@
 	color: grey;
 	text-align: center;
 }
+
+.deleteButton{
+	display: inline-block
+}

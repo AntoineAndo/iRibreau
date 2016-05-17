@@ -13,7 +13,7 @@ module.exports = function Campaign(){
     this.description = "";
 
     // the campaign's logo (bytes data)
-    this.logo = "";
+    this.logo = null;
 
     // the minimum amount of followers for the campaign
     this.minFollower = 0;

@@ -58,20 +58,21 @@ module.exports = function(app, passport){
 	});
 
 	app.post('/campaign/new', function(req, res, next){
-		console.log("PUT NEW");
 
+		console.log("PUT NEW");
+		console.log("requête : " + JSON.stringify(req.body));
 		newCampaign = new Campaign();
-		newCampaign.owner_id = req.owner_id;
-	    newCampaign.title = res.title;
-	    newCampaign.description = req.description;
-	    newCampaign.minFollower = res.minFollower;
+	    newCampaign.title = req.body.title;
+	    newCampaign.description = req.body.description;
+	    newCampaign.minFollower = req.body.minFollower;
 	    newCampaign.participantCount = 0;
-	    newCampaign.budget = res.budget;
+	    newCampaign.budget = req.body.budget;
+	    newCampaign.owner_id = parseInt(req.body.owner_id);
 	    newCampaign.status = 'OPEND';
 			
 		campaignDao.saveNewCampaign(newCampaign, function(err, result){
 	 		if(err){
-	 			console.log("Erreur : " + JSON.stringify(err));
+	 			console.log("Erreur : " + err);
 	 			res.statusCode = 500;
 	 			return res.json({
 	 				errors: ['Problème lors de la création d\' une campagne']
@@ -113,7 +114,7 @@ module.exports = function(app, passport){
 		res.json("{}");
 	});
 
-	app.delete('/campaign/:id',  function(req, res, next) {
+	app.delete('/campaign/delete/:id',  function(req, res, next) {
 
 		campaignDao.deleteCampaign(req.params.id, function(err, result){
 	 		if(err){
@@ -133,7 +134,8 @@ module.exports = function(app, passport){
 	* Unit tests
 	*/
 
-	// Formulaire de test
+	// routes vers les vues de test
+
 	app.get('/test/campaign/new', function(req, res, next) {
 		console.log(req.isAuthenticated());
 		console.log(req.user);
@@ -171,28 +173,18 @@ module.exports = function(app, passport){
 	 	});
 	});
 
-	// summon.use(app, express);
+	app.get('/test/profile', function(req, res, next) {
 
-	// app.get('/campaign/new/createDummy', function(req, res, next){
-	// 	testNewCampaign();
-	// 	res.statusCode = 201;
-	// });
-
-
-	// function testNewCampaign(){
-
-	// 	newCampaign = new Campaign();
-	// 	newCampaign.owner_id = 1;
-	// 	newCampaign.title = "Test title";
-	// 	newCampaign.description = "Test description";
-	// 	newCampaign.logo = "";
-	// 	newCampaign.minFollower = 100;
-	// 	newCampaign.participantCount = 0;
-	// 	newCampaign.budget = 1000;
-
-	// 	summon.route('/campaign/new','POST').addBody({campaign:'campaign'}).execute(function(code, result, response) {
-	// 	    console.log(result); // outputs qBit!
-	// 	    console.log(code); // 200 
-	// 	});
-	// }
+	 	campaignDao.getCampaignsByOwner(req.user.u_id, function(err, result){
+	 		if(err){
+	 			console.log(err);
+	 			res.statusCode = 500;
+	 			return res.json({
+	 				errors: ['Problème lors de la récupération des campagnes']
+	 			});
+	 			
+	 		}
+	 		res.render('profile.ejs', { campaigns: result });
+	 	});
+	});
 }

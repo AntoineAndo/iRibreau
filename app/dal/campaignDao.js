@@ -25,6 +25,7 @@ function CampaignDao(){
         client.connect();
 
     	query = QUERY_INSERT_NEW_CAMPAIGN;
+        console.log("insertion owner_id : " + campaign.owner_id);
     	data = [
     			campaign.title,
     			campaign.description, 
@@ -40,10 +41,9 @@ function CampaignDao(){
             console.log("Query result : " + result);
             if(err){
     			client.end();
-                console.log("Query error : " + err);
-                return console.error('query error', err);
+                return callback(err, null);
             }
-            return callback(result, null);
+            return callback(null, result);
         });
     }
 

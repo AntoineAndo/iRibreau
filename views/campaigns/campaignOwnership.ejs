@@ -3,6 +3,11 @@
 	<% if(campaign.status == status){ %>  
 		<% campaignNum++; %>
 	    <%- include('campaign', {campaign: campaign}); %>
+	    <div class="deleteButton">
+	    	<form action="/campaign/delete/<%= campaign.campaign_id %>" method="delete">
+                <input type="submit" value="Supprimer">
+            </form>
+	    </div>
     <% } %>
 <% }); %>
 <% console.log(campaignNum); %>
