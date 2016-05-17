@@ -59,6 +59,7 @@ function UserDao(){
                 user.profilePictureUrl = result.rows[0]['profilepictureurl'];
                 user.followersCount = result.rows[0]['followerscount'];
                 user.followingCount = result.rows[0]['followingcount'];
+                user.user_id = result.rows[0]['user_id'];
                 client.end();
                 return callback(null, user);
             }

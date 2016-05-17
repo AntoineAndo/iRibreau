@@ -1,5 +1,8 @@
 module.exports = function User(){
 
+    // The user's id
+    this.user_id = 0;
+
     // The user's instagram id
     this.u_id = 0;
 
