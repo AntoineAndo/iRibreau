@@ -44,7 +44,8 @@ module.exports = function(app, passport){
 		passport.authenticate('instagram', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
-	    	res.redirect('/profile');
+			console.log(req.user);
+	    	//res.redirect('/profile');
 		});
 
 	app.get('/logout', function(req, res){

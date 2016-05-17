@@ -38,7 +38,22 @@ module.exports = function(passport, pg) {
     			}
     			if(user){
     				console.log("found");
-    				return done(null, user);
+
+                    var newUser = new User();
+                    newUser.u_id = profile.id;
+                    newUser.token = accessToken;
+                    newUser.username = profile.username;
+                    newUser.profilePictureUrl = profile.profile_picture;
+                    newUser.followersCount = profile.counts.followed_by;
+                    newUser.followingCount = profile.counts.follows;
+
+                    userDao.updateByUser(newUser, function(errUpdate){
+                        if(errUpdate){
+                            console.log(errUpdate);
+                            return done(err);
+                        }
+                        return done(null, newUser);
+                    });
     			}
     			else {
     				console.log("new");

@@ -143,6 +143,28 @@ function UserDao(){
         });
     }
 
+    this.updateByUser = function(newUser, callback){
+        var client = new pg.Client(conString);
+        client.connect();
+        query = "UPDATE USERS SET u_id = $1, username = $3, token = $2, profilePictureUrl = $4, followersCount = $5, followingCount = $6 WHERE u_id like $1; ";
+        data = [
+            newUser.u_id,
+            newUser.token,
+            newUser.username,
+            newUser.profilePictureUrl,
+            newUser.followersCount,
+            newUser.followingCount
+        ];
+        client.query(query, data, function(err, result){
+            client.end();
+            if(err)
+                return callback(err, null);
+
+            console.log(result);
+            return callback(null);
+        });
+    }
+
     // Create a new json object from query result
     function generateUserFromQuery(result, rowIndex){
         var user = new User();
