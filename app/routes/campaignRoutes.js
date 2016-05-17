@@ -57,8 +57,8 @@ module.exports = function(app, passport){
 	 	});
 	});
 
-	app.put('/campaign/new', function(req, res, next){
-
+	app.post('/campaign/new', function(req, res, next){
+		console.log("PUT NEW");
 		newCampaign = req.campaign;
 		
 		campaignDao.saveNewCampaign(newCampaign, function(err, result){
@@ -73,9 +73,9 @@ module.exports = function(app, passport){
 	 		res.statusCode = 201;
 	 	});
 	});
-
+/*
 	app.get('/campaign/:id', function(req, res, next) {
-
+		console.log("GET ID");
 	 	campaignDao.findCampaignById(req.params.id, function(err, result){
 	 		if(err){
 	 			console.log(err);
@@ -95,7 +95,7 @@ module.exports = function(app, passport){
 	 		}
 	 		res.statusCode = 201;
 	 	});
-	});
+	});4*/
 
 	app.patch('/campaign/:id', function(req, res, next) {
 		res.json("{}");
@@ -123,8 +123,9 @@ module.exports = function(app, passport){
 
 	// Formulaire de test
 	app.get('/test/campaign/new', function(req, res, next) {
-
-	 	res.render('campaigns/newCampaign.ejs');
+		console.log(req.isAuthenticated());
+		console.log(req.user);
+	 	res.render('campaigns/newCampaign.ejs', {user: req.user});
 
 	});
 

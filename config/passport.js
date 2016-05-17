@@ -49,7 +49,6 @@ module.exports = function(passport, pg) {
                     newUser.profilePictureUrl = profile.profile_picture;
                     newUser.followersCount = profile.counts.followed_by;
                     newUser.followingCount = profile.counts.follows;
-    				
                     
                     userDao.save(newUser, function(err, callback){
     					if(err)

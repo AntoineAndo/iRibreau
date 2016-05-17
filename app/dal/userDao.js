@@ -14,6 +14,10 @@ var bcrypt = require('bcryptjs');
 var Database = require(appDir + '/config/database');
 var User = require(appDir + '/app/dal/models/user');
 
+QUERY_INSERT_NEW_USER = 'INSERT INTO users(u_id, token, username, profilePictureUrl, followersCount, followingCount) VALUES($1, $2, $3, $4, $5, $6)';
+
+QUERY_FIND_USER_BY_ID = 'SELECT * FROM users WHERE u_id = $1';
+
 function UserDao(){
 
     db = new Database();
@@ -67,6 +71,7 @@ function UserDao(){
     };
 
     this.findOne = function(id, callback){
+        console.log("FIND ONE");
         var client = new pg.Client(conString);
         client.connect();
 
@@ -80,6 +85,7 @@ function UserDao(){
 
             if (result.rows.length > 0){
                 user = generateUserFromQuery(result, 0);
+                console.log("USER ->" + user.user_id);
                 return callback(null, user);
             }
             return callback(null, null);
@@ -146,6 +152,7 @@ function UserDao(){
         user.profilePictureUrl = result.rows[rowIndex]['profilepictureurl'];
         user.followersCount = result.rows[rowIndex]['followerscount'];
         user.followingCount = result.rows[rowIndex]['followingcount'];
+        user.user_id = result.rows[rowIndex]['user_id'];
         return user;
     }
 
@@ -153,10 +160,6 @@ function UserDao(){
     /**
     * QUERIES
     **/
-
-    QUERY_INSERT_NEW_USER = 'INSERT INTO users(u_id, token, username, profilePictureUrl, followersCount, followingCount) VALUES($1, $2, $3, $4, $5, $6)';
-
-    QUERY_FIND_USER_BY_ID = 'SELECT * FROM users WHERE u_id = $1';
 
 }
 

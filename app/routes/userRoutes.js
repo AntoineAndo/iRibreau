@@ -8,12 +8,7 @@ var User = require(appDir + '/app/dal/models/user');
 module.exports = function(app, passport){
 
 	app.get('/', function(req, res){
-		if(!req.isAuthenticated()){
-			res.json(null); 
-		}
-		else{
-			res.json(JSON.parse('{"ok":100}')); 
-		}
+		res.render('workInProgress.ejs');
 	});
 
 	app.get('/profile', routing.isLoggedIn, function(req, res){
