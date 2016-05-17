@@ -124,7 +124,7 @@ module.exports = function(app, passport){
 	// Formulaire de test
 	app.get('/test/campaign/new', function(req, res, next) {
 
-	 	res.render('campaigns/newCampaign.ejs', { campaigns: result });
+	 	res.render('campaigns/newCampaign.ejs');
 
 	});
 

@@ -8,7 +8,12 @@ var User = require(appDir + '/app/dal/models/user');
 module.exports = function(app, passport){
 
 	app.get('/', function(req, res){
-		res.render('workInProgress.ejs');
+		if(!req.isAuthenticated()){
+			res.json(null); 
+		}
+		else{
+			res.json(JSON.parse('{"ok":100}')); 
+		}
 	});
 
 	app.get('/profile', routing.isLoggedIn, function(req, res){
@@ -21,8 +26,8 @@ module.exports = function(app, passport){
 			'"followersCount": '+user.followersCount+','+ 
 			'"followingCount": '+user.followingCount+ 
 		'}}'; 
-		//res.json(JSON.parse( json )); 
-		res.render('profile.ejs', { json: JSON.parse(json), user: req.user });
+		res.json(JSON.parse( json )); 
+		//res.render('profile.ejs', { json: JSON.parse(json), user: req.user });
 	});
 
 	app.put('/profile', function(req, res){
@@ -36,11 +41,14 @@ module.exports = function(app, passport){
 
 	app.get('/auth/instagram',
 		passport.authenticate('instagram'),
-			function(req, res){});
+			function(req, res){
+				console.log("AUTH");
+			});
 
 	app.get('/auth/instagram/callback',
 		passport.authenticate('instagram', { failureRedirect: '/' }),
 		function(req, res) {
+			console.log("AUTH CALLBACK");
 	    	res.redirect('/profile');
 		});
 
