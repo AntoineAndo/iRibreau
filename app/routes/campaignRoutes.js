@@ -59,20 +59,31 @@ module.exports = function(app, passport){
 
 	app.post('/campaign/new', function(req, res, next){
 		console.log("PUT NEW");
-		newCampaign = req.campaign;
-		
+
+		newCampaign = new Campaign();
+		newCampaign.owner_id = req.owner_id;
+	    newCampaign.title = res.title;
+	    newCampaign.description = req.description;
+	    newCampaign.minFollower = res.minFollower;
+	    newCampaign.participantCount = 0;
+	    newCampaign.budget = res.budget;
+	    newCampaign.status = 'OPEND';
+			
 		campaignDao.saveNewCampaign(newCampaign, function(err, result){
 	 		if(err){
-	 			console.log(err);
+	 			console.log("Erreur : " + JSON.stringify(err));
 	 			res.statusCode = 500;
 	 			return res.json({
 	 				errors: ['Problème lors de la création d\' une campagne']
 	 			});
 	 			
 	 		}
+
 	 		res.statusCode = 201;
+	 		res.redirect('/test/myCampaigns');
 	 	});
 	});
+
 /*
 	app.get('/campaign/:id', function(req, res, next) {
 		console.log("GET ID");
@@ -95,7 +106,8 @@ module.exports = function(app, passport){
 	 		}
 	 		res.statusCode = 201;
 	 	});
-	});4*/
+	}); 
+*/
 
 	app.patch('/campaign/:id', function(req, res, next) {
 		res.json("{}");

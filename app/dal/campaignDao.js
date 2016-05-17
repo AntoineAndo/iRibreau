@@ -26,21 +26,24 @@ function CampaignDao(){
 
     	query = QUERY_INSERT_NEW_CAMPAIGN;
     	data = [
-                campaign.owner_id,
     			campaign.title,
     			campaign.description, 
                 campaign.logo,
     			campaign.minFollower,
     			campaign.participantCount,
-    			campaign.budget
+    			campaign.budget,
+                campaign.owner_id,
+                campaign.status
     			];
 
         client.query(query, data, function (err, result) {
+            console.log("Query result : " + result);
             if(err){
     			client.end();
-                console.log(err);
+                console.log("Query error : " + err);
                 return console.error('query error', err);
             }
+            return callback(result, null);
         });
     }
 
@@ -215,7 +218,7 @@ function CampaignDao(){
     * QUERIES
     **/
 
-    QUERY_INSERT_NEW_CAMPAIGN = 'INSERT INTO campaign(title, description, logo, minFollower, participantCount, budget, owner_id, status_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
+    QUERY_INSERT_NEW_CAMPAIGN = 'INSERT INTO campaign(titre, description, logo, "minFollower", "participantCount", budget, owner_id, status_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
 
     QUERY_FIND_CAMPAIGNS = 'SELECT * from campaign';
 

@@ -12,11 +12,16 @@
             <div class="col-sm-6 col-sm-offset-3">
 
                 <form action="/campaign/new" method="post">
-                    <input type="hidden" name="id" value="<%= user.user_id %>">
+                    <%= user.user_id %>
+                    <input type="hidden" name="owner_id" value="<%= user.user_id %>">
                     Title :<br>
                     <input type="text" name="title"><br>
                     Description :<br>
                     <textarea cols="10" rows="5" name="description"></textarea><br>
+                    Minimum de followers :<br>
+                    <input type="number" name="minFollower"><br>
+                    Budget :<br>
+                    <input type="number" name="budget"><br>
                     <input type="submit" value="Créer">
                 </form>
 
