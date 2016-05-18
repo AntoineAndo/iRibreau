@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+	<title>EDIT</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <%- include('./libs.ejs'); %>
+</head>
+<body>
+    <div class="container">
+    	<div class="row">
+            <div class="col-sm-6 col-sm-offset-3 jumbotron">
+                <form action="/profile" method="post">
+                    <select multiple name="hobbies">
+                        <% for(var i=0; i<hobbies.length; i++) {%>
+                           <option value="<%= hobbies[i] %>"><%= hobbies[i] %></option>
+                        <% } %>
+                    </select>
+                    <br/>
+                    <input type="submit" value="Valider">
+                </form>
+            </div>
+    	</div>
+    </div>
+
+</body>
+</html>

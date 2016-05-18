@@ -1,5 +1,9 @@
-	var path = require('path');
+var path = require('path');
 var appDir = path.dirname(require.main.filename);
+var CampaignDao = require(appDir + '/app/dal/campaignDao');
+var campaignDao = new CampaignDao();
+var UserDao = require(appDir + '/app/dal/userDao');
+var userDao = new UserDao();
 
 // Modules
 var routing = require(appDir + '/app/routes/routes');
@@ -25,27 +29,40 @@ module.exports = function(app, passport){
 		//res.render('profile.ejs', { json: JSON.parse(json), user: req.user });
 	});
 
-	app.put('/profile', function(req, res){
-		result = [];
-		result.push(["u_id","1722278825"]);
-		for(var i in req.body)
-    		result.push([i, req.body[i]]);
-    	//console.log(result);
-    	User.update(result);
+	app.post('/profile', function(req, res){
+		hobbies = req.body.hobbies;
+		userDao.associateHobbies(req.user.user_id, hobbies, function(err){
+			res.redirect('/profile');
+		});
 	});
 
-	app.get('/auth/instagram',
-		passport.authenticate('instagram'),
-			function(req, res){
-				console.log("AUTH");
-			});
+	app.get('/profile/edit', function(req, res){
+		campaignDao.getHobbies(function(err, hobbies){
+			if(err){
+	 			console.log(err);
+	 			res.statusCode = 500;
+	 			return res.json({
+	 				errors: ['Problème lors de la récupération des hobbies']
+	 			});
+			}
+
+			res.render('update-peon', {hobbies: hobbies});
+		});
+	});
+
+	app.get('/auth/instagram',passport.authenticate('instagram'), function(req, res){
+		console.log("AUTH");
+	});
+
+	//app.post('/auth', passport.authenticate('local', { session: false }), serialize, generateToken, respond);
+
 
 	app.get('/auth/instagram/callback',
 		passport.authenticate('instagram', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
 			console.log(req.user);
-	    	//res.redirect('/profile');
+	    	res.redirect('/profile');
 		});
 
 	app.get('/logout', function(req, res){

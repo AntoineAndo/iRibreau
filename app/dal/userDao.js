@@ -143,6 +143,36 @@ function UserDao(){
         });
     }
 
+    this.associateHobbies = function(userId, hobbies, callback){
+
+        var client = new pg.Client(conString);
+
+        var query = "INSERT INTO userhobby(user_id, hobby_id) VALUES "
+
+        if(Array.isArray(hobbies)){
+            hobbies.forEach(function(hobby, index){
+                if(index != 0){
+                    query += ", ";
+                }
+                query += "("+userId+",'"+hobby+"')";
+            })
+        }
+        else{
+            query += "("+userId+",'"+hobbies+"')";
+        }
+
+        console.log(query);
+
+        client.connect();
+        client.query(query, function(err, result){
+            client.end();
+            if(err)
+                callback(err);
+
+            callback(null);
+        });
+    };
+
     this.updateByUser = function(newUser, callback){
         var client = new pg.Client(conString);
         client.connect();

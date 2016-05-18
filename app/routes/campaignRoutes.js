@@ -59,7 +59,7 @@ module.exports = function(app, passport){
 
 	app.post('/campaign/new', function(req, res, next){
 
-		console.log("PUT NEW");
+		console.log("POST NEW");
 		console.log("requête : " + JSON.stringify(req.body));
 		newCampaign = new Campaign();
 	    newCampaign.title = req.body.title;
@@ -76,12 +76,10 @@ module.exports = function(app, passport){
 	 			res.statusCode = 500;
 	 			return res.json({
 	 				errors: ['Problème lors de la création d\' une campagne']
-	 			});
-	 			
+	 			});	
 	 		}
-
-	 		res.statusCode = 201;
-	 		res.redirect('/test/myCampaigns');
+	 		//res.statusCode = 201;
+	 		//res.redirect('/test/myCampaigns');
 	 	});
 	});
 
@@ -128,7 +126,6 @@ module.exports = function(app, passport){
 	 		res.statusCode = 201;
 	 	});
 	});
-
 
 	/**
 	* Unit tests

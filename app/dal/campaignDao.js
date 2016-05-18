@@ -47,6 +47,36 @@ function CampaignDao(){
         });
     }
 
+    this.associateHobbies = function(userId, hobbies, callback){
+
+        var client = new pg.Client(conString);
+
+        var query = "INSERT INTO campaignhobby(campaign_id, hobby_id) VALUES "
+
+        if(Array.isArray(hobbies)){
+            hobbies.forEach(function(hobby, index){
+                if(index != 0){
+                    query += ", ";
+                }
+                query += "("+userId+",'"+hobby+"')";
+            })
+        }
+        else{
+            query += "("+userId+",'"+hobbies+"')";
+        }
+
+        console.log(query);
+
+        client.connect();
+        client.query(query, function(err, result){
+            client.end();
+            if(err)
+                callback(err);
+
+            callback(null);
+        });
+    };
+
     // Finds one campaign by id
     this.findCampaignById = function(id, callback){
         var client = new pg.Client(conString);
@@ -140,6 +170,25 @@ function CampaignDao(){
             }
             
             return callback(null, campaigns);
+        });
+    }
+
+    this.getHobbies = function(callback){
+        var client = new pg.Client(conString);
+
+        client.connect();
+        client.query("SELECT * FROM hobby", function(err, result){
+            client.end();
+            if(err)
+                callback(err, null);
+
+            var hobbies = [];
+            if(result.rows.length > 0){
+                result.rows.forEach(function(hobby){
+                    hobbies.push(hobby.hobby_id);
+                })
+            } 
+            callback(null, hobbies);
         });
     }
 
